@@ -1,3 +1,5 @@
+let fetchData = [];
+
 const fetchCategories = () => {
     const URL = 'https://openapi.programming-hero.com/api/news/categories'
     fetch(URL)
@@ -25,7 +27,10 @@ const fetchCategoryNews = (categoryId, categoryName) => {
     const URL = ` https://openapi.programming-hero.com/api/news/category/${categoryId}`
     fetch(URL)
         .then(res => res.json())
-        .then(data => showAllNews(data.data, categoryName));
+        .then(data => {
+            fetchData = data.data;
+            showAllNews(data.data, categoryName)
+        });
 }
 
 const showAllNews = (data, categoryName) => {
@@ -53,13 +58,13 @@ const showAllNews = (data, categoryName) => {
                         <div class="d-flex gap-2">
                             <img src="${author.img}" class="img-fluid rounded-circle" height="40" width="40">
                             <div>
-                            <p class="m-0 p-0">${author.name}</p>
+                            <p class="m-0 p-0">${author.name ? author.name : 'Not Available'}</p>
                             <p class="m-0 p-0">${author.published_date}</p>
                             </div>
                         </div>
                         <div class="d-flex align-items-center">
                             <i class="fas fa-eye"></i>
-                            <p class="m-0 p-0">${total_view}</p>
+                            <p class="m-0 p-0">${total_view ? total_view : 'Not Available'}</p>
                         </div>
                         <div>
                             <i class="fas fa-star"></i>
@@ -99,13 +104,13 @@ const showNewsDetail = newsDetail => {
                     <div class="d-flex gap-2">
                         <img src="${author.img}" class="img-fluid rounded-circle" height="40" width="40">
                         <div>
-                        <p class="m-0 p-0">${author.name}</p>
+                        <p class="m-0 p-0">${author.name ? author.name : 'Not Available'}</p>
                         <p class="m-0 p-0">${author.published_date}</p>
                         </div>
                     </div>
                     <div class="d-flex align-items-center">
                         <i class="fas fa-eye"></i>
-                        <p class="m-0 p-0">${total_view}</p>
+                        <p class="m-0 p-0">${total_view ? total_view : 'Not Available'}</p>
                     </div>
                     <div>
                         <i class="fas fa-star"></i>
@@ -116,4 +121,10 @@ const showNewsDetail = newsDetail => {
     </div>
         </div>
         `
+}
+
+const showTrending = () => {
+    let trendingNews = fetchData.filter(singleData => singleData.others_info.is_trending === true);
+    const categoryName = document.getElementById('category-name').innerText;
+    showAllNews(trendingNews, categoryName);
 }
