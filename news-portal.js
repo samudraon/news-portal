@@ -42,7 +42,7 @@ const showAllNews = (data, categoryName) => {
     newsContainer.innerHTML = '';
     data.forEach(singleNews => {
         // console.log(singleNews);
-        const { _id, image_url, title, details, author, total_view } = singleNews;
+        const { _id, image_url, title, details, author, total_view,rating } = singleNews;
         const card = document.createElement('div');
         card.classList.add('card', 'mb-3');
         card.innerHTML = `
@@ -66,8 +66,13 @@ const showAllNews = (data, categoryName) => {
                             <i class="fas fa-eye"></i>
                             <p class="m-0 p-0">${total_view ? total_view : 'Not Available'}</p>
                         </div>
-                        <div>
-                            <i class="fas fa-star"></i>
+                        <div class="d-flex gap-2">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half"></i>
+                        <p>${rating.number}</p>
                         </div>
                         <div>
                             <i class="fas fa-arrow-right" onclick="fetchNewsDetails('${_id}')" data-bs-toggle="modal" data-bs-target="#exampleModal"></i>
@@ -111,9 +116,6 @@ const showNewsDetail = newsDetail => {
                     <div class="d-flex align-items-center">
                         <i class="fas fa-eye"></i>
                         <p class="m-0 p-0">${total_view ? total_view : 'Not Available'}</p>
-                    </div>
-                    <div>
-                        <i class="fas fa-star"></i>
                     </div>
                 </div>
             </div>
